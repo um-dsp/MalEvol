@@ -15,5 +15,5 @@
 
 ### Setup
 
-> Create two folders "dumps" and "reports"
+> Create two folders "dumps" and "reports" and
 > run `python AnaInf.py <your-pcap-file>`
