@@ -1,7 +1,7 @@
 # MalEvol
 Multi-faceted malware infection characterization
 
-<a href="http://fvcproductions.com"><img src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1904/alekseyvanin190400634/120392519-virus-bug-vector-icon-filled-flat-sign-for-mobile-concept-and-web-design-computer-virus-infection-gl.jpg" title="FVCproductions" alt="FVCproductions" style="width:500px;height:600px;"></a>
+<a href="http://fvcproductions.com"><img src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1904/alekseyvanin190400634/120392519-virus-bug-vector-icon-filled-flat-sign-for-mobile-concept-and-web-design-computer-virus-infection-gl.jpg" title="FVCproductions" alt="FVCproductions" style="width:50px;height:60px;"></a>
 
 <!-- [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) -->
 
