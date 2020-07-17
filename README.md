@@ -6,7 +6,7 @@
 
 ## Installation
 
-- `pip install Requirements.txt`
+- `pip2 install Requirements.txt`
 
 
 ### Clone
