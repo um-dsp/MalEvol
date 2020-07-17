@@ -396,7 +396,7 @@ def Vuln_probing(chains,files,name):
                            
                     break 
         if found==0:
-            print("Attacker have probably not used JS script for vulnerability probing") 
+            print("Attacker has probably not used JS script for vulnerability probing") 
                 
     return 0
 
