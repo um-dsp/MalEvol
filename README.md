@@ -4,7 +4,7 @@
 
 
 
-## Installation
+## Requirements Installation
 
 - `pip2 install Requirements.txt`
 
