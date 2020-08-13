@@ -1,3 +1,7 @@
 jsbeautifier
 mosspy
 PyV8
+Basemap
+urllib2
+virus_total_apis
+igraph
