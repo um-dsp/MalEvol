@@ -15,5 +15,14 @@
 
 ### Setup
 
+> Drop your "PCAP" files in the main directory
 > Create two folders "dumps" and "reports" and
-> run `python AnaInf.py <your-pcap-file>`
+
+### Web traffic analysis for a given pcap file
+
+> run `python AnaInf.py <your-pcap-file-name>`
+
+
+### Geographical Analysis through time
+
+> run `python geo_analysis.py`
