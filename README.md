@@ -7,7 +7,7 @@
 ## Requirements Installation
 
 - Python 2.7
-- `pip2 install Requirements.txt`
+- `pip2 install -r Requirements.txt`
 
 
 ### Clone
