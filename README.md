@@ -5,14 +5,20 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## Installation
 
 - `pip2 install Requirements.txt`
 =======
+=======
+>>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
 ## Requirements Installation
 
 - Python 2.7
 - `pip2 install -r Requirements.txt`
+<<<<<<< HEAD
+>>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
+=======
 >>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
 
 
@@ -23,9 +29,12 @@
 ### Setup
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 > Create two folders "dumps" and "reports" and
 > run `python AnaInf.py <your-pcap-file>`
 =======
+=======
+>>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
 > Drop your "PCAP" files in the main directory
 ####
 > Create two folders "dumps" and "reports"
@@ -38,4 +47,7 @@
 ### Geographical Analysis through time
 
 > run `python geo_analysis.py`
+<<<<<<< HEAD
+>>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
+=======
 >>>>>>> a5bc0dad6f9d7c7f54899f5c9103ecc756869db1
