@@ -3,3 +3,5 @@ jsbeautifier
 adblockparser
 user_agents
 countryinfo
+virustotal-api
+py-mini-racer
