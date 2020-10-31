@@ -20,3 +20,7 @@
 > Create two folders "dumps" and "reports" and
 > Drop your "PCAP" files in the floder "pcaps"
 > run `python MalEvol.py <your-pcap-file>`  (python3)
+
+### Note
+MalEvol manages malicious files. In order to use it, you need to disable any real-time anti-malware protection your OS provides.
+Please note that using MalEvol for a malicious pcap analysis might harm your machine.
