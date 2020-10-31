@@ -5,9 +5,10 @@
 
 ## Requirements Installation
 
-- Python 3
+- Python 3: Used to run MalEvol.py
 - `pip3 install -r requirements.txt`
-- Python 2 is used too: Make sure that the python2 command in your variable environment is "python2"
+- Python 2: Used to run CapTipper.py
+- Make sure that the python2 command in your variable environment is "python2"
 
 
 ### Clone
