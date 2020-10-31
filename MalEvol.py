@@ -37,7 +37,7 @@ objects={} # List of objects found in each visited host
 
 def handle_uploaded_file(name):
 
-    '''Use our Gadgets to perform analysis on the user's pcap file'''
+    '''Use our Gadgets to perform advanced analysis on the user's pcap file'''
 
     name0=""
     label='benign'
@@ -159,7 +159,7 @@ def hash(file):
 
 def server_replay(name):
 
-    ''' Analyze PCAP file; dump all objects of all invilved hosts; return a json analysis report'''
+    ''' Analyze PCAP file; dump all objects of all involved hosts; return a json analysis report'''
 
     pcap_path = os.path.join(base_path, 'pcaps',name)
     #pcap_path="E:/MalEvol-Dataset/threatglass-pcaps/"+name
@@ -204,7 +204,7 @@ def server_replay(name):
 
 def read_report(hash_value,name0):
     
-    print('reading report')
+    
     '''Read the created JSON report '''
     file=''
     os.chdir(os.path.join(base_path,"dumps",hash_value))
