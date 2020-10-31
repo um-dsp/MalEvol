@@ -15,6 +15,8 @@ import jsbeautifier as jsb
 import hashlib
 from virus_total_apis import PublicApi as VirusTotalPublicApi
 import time
+from igraph import *
+import pandas as pd
 
 
 
@@ -26,9 +28,10 @@ referers={'search engine':['google','yahoo','bing'],
           'social media':['facebook','twitter','instagram']}
 
 
-
+data=pd.read_csv(base_path+'/webInf.csv')
 chains=[] # List of all possible redirection chains
 checked_files=[] # a list to keep track of processed files
+objects={} # List of objects found in each visited host
 
 def server_replay(pcap):
     
@@ -61,8 +64,8 @@ def read_report(name):
                 line_=line.decode("utf-8")
                 with open(path+'/new-'+name+".json",'a') as f:
                     f.write(line_)
-            except UnicodeDecodeError:
-                #print("decoding error captured and removed" )
+            except (UnicodeDecodeError, UnicodeEncodeError):
+               #print("decoding error captured and removed")
                 continue
           
     with open(path+'/new-'+name+".json",'r') as f:
@@ -194,7 +197,8 @@ def first(chain,conversation,files,name):
                     js=extract_js(file)
                     if file not in checked_files:
                         checked_files.append(file)
-                    if js != []:
+                    if js != [] and js != None:
+                        
                         for script in js:
                             if script.find('<iframe') != -1: # iframe based
                                 fp=script.find('</iframe') 
@@ -396,7 +400,7 @@ def Vuln_probing(chains,files,name):
                            
                     break 
         if found==0:
-            print("Attacker has probably not used JS script for vulnerability probing") 
+            print("Attacker have probably not used JS script for vulnerability probing") 
                 
     return 0
 
@@ -503,7 +507,60 @@ def extract_js(file):
                 html=html[fp+len('</script>'):]
                 
         return js
+
+def draw_graph():
     
+    mapping={}
+    Id=0
+    
+    for host in objects.keys():
+        for obj in objects[host]:
+            mapping[Id]=host+"/"+obj
+            Id+=1
+    
+    
+    graph={}
+    for Id in mapping.keys():
+        linked=[]
+        for elt in objects.values():
+            
+            if mapping[Id].split('/')[-1] in elt:
+                for Id2 in mapping.keys():
+                    if Id2 != Id and mapping[Id2].split('/')[-1] in elt:
+                        linked.append(Id2)
+                graph[Id]=linked
+    
+    #print(graph)
+    
+    g= Graph(generate_edges(graph))
+    #g.add_vertices(len(mapping))
+    #g.add_edges(generate_edges(graph))
+    names=[]
+    for Id in mapping.keys():
+        names.append(mapping[Id])
+    
+    g.vs["label"] = names
+    try:
+        layout = g.layout("kk")
+    except:
+        layout = g.layout("random")
+        
+    plot(g,base_path+"/graph.png", layout = layout,bbox = (300, 300), margin = 20)
+    print("graph is stored at"+base_path+"/graph.png")
+    
+    return graph
+
+
+#for Id in range(len(names)):
+#    g.es[Id]["name"]=names[Id]
+
+def generate_edges(graph):
+    edges = []
+    for node in graph:
+        for neighbour in graph[node]:
+            edges.append((node, neighbour))
+
+    return edges
 def check_dup(chains,chain):
     check=0
     for elt in chains:
@@ -545,9 +602,52 @@ def save_js(js):
     file="new.js"
     return file
        
+def IP_extract(file):
+    
+    client=get_ip(file["client"]["IP"])
+    
+    
+    infected_host=get_ip(file["conversations"][0]["ip"])
+    
+    transition=[]
+    for Id in range(1,len(file["conversations"])-1):
+        
+        transition.append(get_ip(file["conversations"][Id]["ip"]))
+    transition= ';'.join(transition)
+        
+    infecting_host=get_ip(file["conversations"][len(file["conversations"])-1]["ip"])
+    
+    year=get_year(file["info"]["traffic_time"])
+    
+    data.loc[data.index[-1]+1] = pd.Series({'Year':year, 'Client':client, 'Infected_host':infected_host, 'transitions':transition, 'infecting_host':infecting_host})
+    data.to_csv(base_path+'/webInf.csv', index=False)
+    
+    return client, infected_host, transition, infecting_host
+        
+#def get_cord(time):    
 
+def get_ip(IP):
     
+    ip=IP
+    if IP.find(':') != -1:
+        ip=IP[0: IP.find(':')]
+        
     
+    return ip
+
+def get_year(time):
+    
+    year=time
+    splt=year.split('/')
+    if len(splt)==3:
+        year=splt[-1]
+        year=year[0: year.find(' ')]
+        year='20'+year
+    else:
+        print('the traffic time'+ year + 'is not precise')
+        
+    return year
+
 if __name__ == '__main__':
 
     
@@ -561,6 +661,11 @@ if __name__ == '__main__':
         print("Enticement source= ",Enticement_source(file))
         print('\n-- Running Redirection chain gadget\n')
         conversations=file["conversations"] # all conversations from pcap file
+        for conv in conversations:
+            objects[conv["name"]]=[]
+            for obj in conv["uris"]:
+                objects[conv["name"]].append(obj["filename"])
+        #print(objects)
         chains=RedChain_gadget(conversations,files,name)
         if chains != []:
             for chain in chains:
@@ -573,8 +678,9 @@ if __name__ == '__main__':
         else:
             print("No redirection chain were found")
         #print("Checked files are: ",checked_files)
-        
-        
+        print(draw_graph())
+        print("\n")
+        print(IP_extract(file))
         
     else:
         print("infection analysis: pcap file missing")
