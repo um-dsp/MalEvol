@@ -19,9 +19,13 @@ class check_host(ConsolePlugin):
                 host = self.conversations[id].host
                 ip, port = self.conversations[id].server_ip_port.split(":")
 
+                # Decode Bytearray to string
+                if not isinstance(host, str):
+                    host = host.decode("cp437", "ignore")
+
                 # Logging
-                print "Checking host {}".format(host)
-                print "IP:PORT = {}:{}".format(ip,port)
+                print("Checking host {}".format(host))
+                print("IP:PORT = {}:{}".format(ip,port))
 
                 # Establishing connection
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,6 +38,6 @@ class check_host(ConsolePlugin):
 
                 return result
             else:
-                print "Invalid conversation ID {}".format(str(id))
+                print("Invalid conversation ID {}".format(str(id)))
         else:
             return "No arguments given"
