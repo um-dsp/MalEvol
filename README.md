@@ -1,6 +1,14 @@
 
 
-# Multi-faceted malware infection characterization
+# MalEvol: Multi-faceted malware infection characterization
+MalEvol is an analysis pipeline that accepts a web-borne malware infection network capture and dissects the infection by analyzing HTTP conversations.
+Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages an HTTP replay engine to sift throught HTTP conversation transactions and extract:
+
+- Enticement evidence (if the referrer field is non-empty)
+- Redirection chain
+- Fingerprinting evidence
+- Exploitation evidence
+
 
 
 ## Requirements Installation
