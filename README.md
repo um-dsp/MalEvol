@@ -36,7 +36,7 @@ MalEvol has the following najor analysis components which call gadgets:
 - Execute `python MalEvol.py <your-pcap-file>` (python3)
 
 ### Notes
-- Please note that using MalEvol for a malicious pcap analysis might is not intended for production/commercial purpose, but rather for educational and research only.
+- Please note that MalEvol is not intended for production/commercial purpose, but rather for educational and research only.
 
 - Since MalEvol analyzes potential malicious objects, in order to smoothly run it, you need to disable any real-time anti-malware protection you have installed or your OS provides.
 
