@@ -3,11 +3,11 @@
 # MalEvol: Multi-faceted Malware Infection Traffic Characterization
 
 MalEvol is an analysis pipeline that accepts a web-borne malware infection network capture (.PCAP or .PCAPNG) and dissects it by analyzing HTTP conversations.
-Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages the [CapTipper](https://github.com/omriher/CapTipper) HTTP replay engine to sift through HTTP conversation transactions so as to enable security analysts identify potential threats quickly and across multiple dimensions such as redirections, fingerpringing, and actual exploitation indicators. 
+Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages the [CapTipper](https://github.com/omriher/CapTipper) HTTP replay engine to sift through HTTP conversation transactions so as to enable security analysts quickly identify potential threats (e.g., exploit kits, ransomware) across multiple dimensions such as redirections, fingerpringing, and actual exploitation indicators and participants (e.g., malware payload servers). 
 
 For potentially malicious artifacts it identifies, MalEvol leverages real-time detection results from [VirusTotal](https://www.virustotal.com/gui/) to score each artifact for maliciousness. In addition, MalEvol also automatically exracts IOCs from the given infection capture and searches for them in [APT reports](https://github.com/aptnotes/data) to correlate IOCs in the infection traffic under analysis and APT artifacts released over the years. 
 
-MalEvol has the following analysis components:
+MalEvol has the following najor analysis components which call gadgets:
 
 - Enticement source identification
 - Redirection Chain extraction
