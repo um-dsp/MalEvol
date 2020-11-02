@@ -3,8 +3,6 @@
 [Logo]: http://4.bp.blogspot.com/-uuRE1KkS5Jo/Vb8j-cfEuHI/AAAAAAAAeY4/MltsTu7jG5E/s1600/CapTipper_logo.png
 ![Logo]
 
-**! This Branch is adjusted to Python3 !**
-
 CapTipper v0.3: http://www.omriher.com/2015/08/captipper-v03-is-out.html  
 CapTipper v0.2: http://www.omriher.com/2015/03/captipper-02-released.html  
 CapTipper v0.1: http://www.omriher.com/2015/01/captipper-malicious-http-traffic.html  
@@ -21,6 +19,9 @@ The user can at this point browse to http://127.0.0.1/[host]/[URI] and receive t
 In addition, an interactive shell is launched for deeper investigation using various commands such as: hosts, hexdump, info, ungzip, body, client, dump and more...
 
 Documentation: http://captipper.readthedocs.org
+
+**Update from 02-Oct-2020:**  
+CapTipper now supports Python3 and can be found in the following branch: https://github.com/omriher/CapTipper/tree/python3_support
 
 [ScreenShot]: http://3.bp.blogspot.com/-7XrSKP1BHzE/VLRGBR3cQ0I/AAAAAAAAZso/3FpWTRi8rYU/s1600/CapTipperScreenShot.png
 
@@ -408,7 +409,7 @@ Please open an issue for bugs.
 I would be happy to accept suggestions and feedback to my mail :)  
 
 CapTipper: http://www.omriher.com/2015/01/captipper-malicious-http-traffic.html  
-Email: [omriher@gmail.com](mailto:omriher@gmail.com?Subject=CapTipper feedback)  
+Email: omriher [at] gmail.com  
 Twitter: [@omriher](https://twitter.com/omriher)
 
 

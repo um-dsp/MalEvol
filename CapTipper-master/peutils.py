@@ -13,7 +13,7 @@ the root of the distribution archive.
 import os
 import re
 import string
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import pefile
 
 __author__ = 'Ero Carrera'
@@ -195,7 +195,7 @@ class SignatureDatabase:
             #
             try :
                 data = pe.__data__
-            except Exception as excp :
+            except Exception, excp :
                 raise
 
             # Load the corresponding tree of signatures
@@ -213,7 +213,7 @@ class SignatureDatabase:
             #
             try :
                 data = pe.get_memory_mapped_image()
-            except Exception as excp :
+            except Exception, excp :
                 raise
 
             # Load the corresponding tree of signatures
@@ -235,7 +235,7 @@ class SignatureDatabase:
 
             signatures = self.signature_tree_eponly_false
 
-            scan_addresses = list(range( len(data)))
+            scan_addresses = xrange( len(data) )
 
         # For each start address, check if any signature matches
         #
@@ -335,7 +335,7 @@ class SignatureDatabase:
             # it means that a signature in the database
             # ends here and that there's an exact match.
             #
-            if None in list(match.values()):
+            if None in match.values():
                 # idx represent how deep we are in the tree
                 #
                 #names = [idx+depth]
@@ -345,7 +345,7 @@ class SignatureDatabase:
                 # if it has an element other than None,
                 # if not then we have an exact signature
                 #
-                for item in list(match.items()):
+                for item in match.items():
                     if item[1] is None :
                         names.append (item[0])
                 matched_names.append(names)
@@ -353,7 +353,7 @@ class SignatureDatabase:
             # If a wildcard is found keep scanning the signature
             # ignoring the byte.
             #
-            if '??' in match :
+            if match.has_key ('??') :
                 match_tree_alternate = match.get ('??', None)
                 data_remaining = data[idx + 1 :]
                 if data_remaining:
@@ -366,10 +366,10 @@ class SignatureDatabase:
         # If we have any more packer name in the end of the signature tree
         # add them to the matches
         #
-        if match is not None and None in list(match.values()):
+        if match is not None and None in match.values():
             #names = [idx + depth + 1]
             names = list()
-            for item in list(match.items()) :
+            for item in match.items() :
                 if item[1] is None:
                     names.append(item[0])
             matched_names.append(names)
@@ -392,7 +392,7 @@ class SignatureDatabase:
             #
             if not os.path.exists(filename):
                 try:
-                    sig_f = urllib.request.urlopen(filename)
+                    sig_f = urllib.urlopen(filename)
                     sig_data = sig_f.read()
                     sig_f.close()
                 except IOError:

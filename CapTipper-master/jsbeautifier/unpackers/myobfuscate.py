@@ -36,7 +36,7 @@ import base64
 # pylint: disable=F0401
 # pylint: disable=E0611
 try:
-    from urllib.parse import unquote
+    from urllib import unquote
 except ImportError:
     from urllib.parse import unquote
 

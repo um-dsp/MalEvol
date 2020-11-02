@@ -69,7 +69,8 @@ def handle_uploaded_file(name):
         format='valid'
         mac,browser,OS,device=get_info(file)
         
-
+        print("\n--The victim's host: \n MAC : {} \n Browser : {} \n OS : {} \n Device : {} \n".format(mac,browser,OS,device))
+        
         for elt in device:
             if elt in [None,'na']:
                 msg='no device'
@@ -78,11 +79,13 @@ def handle_uploaded_file(name):
 
         print('\n-- Running Enticement source detection gadget\n')
         ent,ent_type=Enticement_source(file)
-        print("Enticement source= ",ent)
-       
+        
         if len(ent)==0:
             ent='The type of enticement source is unrecognized'
 
+
+        print("Enticement source= ",ent)
+        print("The Enticement source type is = ",ent_type)
     
 
         print('\n-- Running Redirection chain gadget\n')
@@ -98,10 +101,10 @@ def handle_uploaded_file(name):
         
         if chains != []:
             for chain in chains:
-                print(chain)
+                print("\n The Extracted redirection chain: ", chain)
                 print("\n")
             for ip_chain in ip_chains:
-                print(ip_chain)
+                print("\n The Extracted redirection chain IPs: ",ip_chain)
                 print("\n")
             
             edges,nodes=generate_graph(ip_chains)
@@ -116,7 +119,11 @@ def handle_uploaded_file(name):
                 label,scores,scores2,VT_scandate=exploitation(conversations,files,hash_value)
             if label != 'benign':
                 tot+=1
-
+                print("No malicious files were detected with Virus Total API\n")
+            else:
+                print("VirusTotal Api detected some malicious files\n")
+            print('Maliciousness likelihood of detected suspicious files: ',scores)
+            
 
         else:
             print("No redirection chain were found")
@@ -130,21 +137,23 @@ def handle_uploaded_file(name):
         matches,hashes,matches2=APT_matches(hash_value,file,chains,VT_scandate,files)
         if matches2 != {}:
             tot+=1
+            print('Detected IOC matches with public APTNotes are:',matches['APTs'])
+        else:
+            print('No IOC matches were found with public APTNotes')
         print('\n-- running geo analysis \n')
         geo_data, geo_line,date=get_loc(file,hashes)
         if geo_data != []:
             tot+=1
+        #print(geo_data)
        
         
-        print("traffic date = ", date)
-        print("IOC matches with APT Notes = ", matches['APTs'])
+        print("\n--traffic date = ", date)
         #print('VT_dates =', VT_scandate)
 
     
     
     else:
-        print('file format is invalid or pcap is already processed and stored')
-   
+        print('file format is invalid')   
 
     return msg,format,name0,label,ent,prob,scores2,edges,nodes,ent_type, mac,browser,OS,device,geo_data, geo_line,date,matches,ip_chains
 
@@ -432,7 +441,7 @@ def map_to_ip(filename,conversations):
             if temp.find(conversation[Id]["host"]) != -1 or conversation[Id]["host"].find(temp) != -1:
                 ip=conversation[Id]["server_ip_port"]
                 found=1
-                print('{} and {} matched for ip'.format(temp,conversation[Id]["host"]))
+                #print('{} and {} matched for ip'.format(temp,conversation[Id]["host"]))
                 return ip[:ip.find(':')]
             #if filename.find(conversation[Id]["filename"]) or conversation[Id]["filename"].find(filename):
             #    ip=conversation[Id]["server_ip_port"]
@@ -513,7 +522,7 @@ def first(chain,ip_chain,conversation,files,hash_value,conversations):
                 for filee in files:
                     if filee.find(conversation[Id]["filename"]) != -1:
                         try:
-                            print("reading file",filee)
+                            #print("reading file",filee)
                             f = open(os.path.join(base_path,"dumps",hash_value,filee), "r")
                             html=f.read()
                             f.close()
@@ -562,7 +571,7 @@ def first(chain,ip_chain,conversation,files,hash_value,conversations):
             for filee in files:
                 if filee.find(conversation[Id]["filename"]) != -1:
                     try:
-                        print("reading file",filee)
+                        #print("reading file",filee)
                         f = open(os.path.join(base_path,"dumps",hash_value,filee), "r")
                         js=f.read()
                         f.close()
@@ -682,7 +691,7 @@ def first(chain,ip_chain,conversation,files,hash_value,conversations):
                     if filee.find(conversation[Id]["filename"]) != -1:
                    
                         try:
-                            print("reading file",filee)
+                            #print("reading file",filee)
                             f = open(os.path.join(base_path,"dumps",hash_value,filee), "r")
                             head=f.read()
                             f.close()
@@ -1059,9 +1068,9 @@ def exploitation_chain(chains,conversations,files,hash_value):
                     break
                 
     
-    print(label)
-    print(scores)
-    print(VT_scandate)
+    #print(label)
+    #print(scores)
+    #print(VT_scandate)
     scores2={}
     if scores != {}:
         for obj in scores.keys():
@@ -1118,9 +1127,9 @@ def exploitation(conversations,files,hash_value):
                     break
                     
        
-    print(label)
-    print(scores)
-    print(VT_scandate)
+    #print(label)
+    #print(scores)
+    #print(VT_scandate)
     
     if scores != {}:
         for obj in scores.keys():
@@ -1334,7 +1343,7 @@ def generate_graph(chains):
                         for node in chain.keys():
                             if chain[node].find('Redirection '+str(ind+1)+':') != -1:
                                 
-                                print(node)
+                                #print(node)
                                 nodes.append({'id': node, 'label':node, 'group':'inter'})
                             
                                 edges.append({'from': nodes[-2]['id'], 'to': nodes[-1]['id'], 'label':redirect, 'arrows':"to"})
@@ -1455,11 +1464,13 @@ def get_loc(file,hashes):
     
     client, infected_host, transition, infecting_host,date=IP_extract(file)
     
+    print('/**Locating infected host\n')
     infected_host=check_ip(infected_host)
     City,lat,longi,Country=ip_lookup(infected_host)
     if lat!='' and Country!='(Unknown Country?) (XX)':
         geo_data.append({"latitude": float(lat),"longitude": float(longi),"value": 1,"color": 'blue' ,"title": City,"host": infected_host,'hashes':''})#"chart.colors.getIndex(0)"
         geo_line.append({ "latitude": float(lat), "longitude": float(longi) })
+        print(City+' '+Country)
     else:
         if Country not in ['(Unknown Country?) (XX)','']:
             if Country.find('(') != -1:
@@ -1472,23 +1483,27 @@ def get_loc(file,hashes):
                 info = CountryInfo(Country)
                 cap=info.capital()
                 lat,longi=info.capital_latlng()
-
+                
                 geo_data.append({"latitude": float(lat),"longitude": float(longi),"value": 1,"color": 'blue' ,"title": cap,"host": infected_host,'hashes':''})#"chart.colors.getIndex(0)"
                 geo_line.append({ "latitude": float(lat), "longitude": float(longi) })
             except:
                 pass
-        
+        else:
+            print('Host is not located')
 
     index=0
     added=[]
+    print('/**Locating transitions hosts\n')
     for host in transition:
         if host not in added:
             ip=check_ip(host)
             City,lat,longi,Country=ip_lookup(ip)
+            
             if lat!='' and Country!='(Unknown Country?) (XX)':
                 geo_data.append({"latitude": float(lat),"longitude": float(longi),"value": 1,"color":'purple' ,"title": City,"host": ip,'hashes':''})#"chart.colors.getIndex(1)"
                 
                 geo_line.append({ "latitude": float(lat), "longitude": float(longi) })
+                print(City+' '+Country)
                 added.append(host)
                 index+=1
             else:
@@ -1509,11 +1524,14 @@ def get_loc(file,hashes):
                     except:
                         pass
                     index+=1
+    print('/**Locating Infecting host\n')
     infecting_host=check_ip(infecting_host)
     City,lat,longi,Country=ip_lookup(infected_host)
+    
     if lat!='' and Country!='(Unknown Country?) (XX)':
         geo_data.append({"latitude": float(lat),"longitude": float(longi),"value": 1,"color":'red' ,"title": City,"host": infecting_host,'hashes':list(hashes.keys())})#"chart.colors.getIndex(4)"
         geo_line.append({ "latitude": float(lat), "longitude": float(longi) })
+        print(City+' '+Country)
     else:
         if Country not in ['(Unknown Country?) (XX)','']:
             if Country.find('(') != -1:
@@ -1532,6 +1550,8 @@ def get_loc(file,hashes):
                 geo_line.append({ "latitude": float(lat), "longitude": float(longi) })
             except:
                 pass
+        else:
+            print('Host is not located')
     
     
 
@@ -1721,7 +1741,7 @@ def APT_matches(hash_value,file,chains,VT_scandate,files):
 
 def get_year(traffic_date):
     
-    print('getting year from',traffic_date)
+    #print('getting year from',traffic_date)
     return traffic_date.split('-')[0]
 
 def find_edge_id(target,edgess):

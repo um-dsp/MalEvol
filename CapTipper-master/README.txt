@@ -1,19 +1,14 @@
 Home
 -=-=-=-=
-Developed by Omri Herscovici
+Written by Omri Herscovici
 http://omriher.com
 @omriher
 
 Dependencies
 -=-=-=-=-=-=-=-
-
-Python 3
-----------
-Some of the  below libraries might need to be updated to Python3 accordingly
-
-Python 2.7.x
--------------
 No libraries needed for download
+
+Python 2.7.x Only
 
 Included Modules: 
 pcap_parser - https://github.com/xiaxiaocao/pcap-parser (Dong Liu)
@@ -22,6 +17,7 @@ pescanner - https://code.google.com/p/malwarecookbook/source/browse/trunk/3/8/pe
 pefile / peutil - https://code.google.com/p/pefile/ (Ero Carrera)
 jsbeautify - http://jsbeautifier.org/ (Einar Lielmanis)
 (Thanks to all the developers !!)
+
 
 Installation
 -=-=-=-=-=-

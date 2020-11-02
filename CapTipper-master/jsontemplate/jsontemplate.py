@@ -33,14 +33,14 @@ __all__ = [
     'TemplateSyntaxError', 'UndefinedVariable', 'CompileTemplate', 'FromString',
     'FromFile', 'Template', 'expand']
 
-import io
+import StringIO
 import pprint
 import re
 
 # For formatters
-import html  # html.escape
-import urllib.request, urllib.parse, urllib.error  # for urllib.encode
-import urllib.parse  # for urljoin
+import cgi  # cgi.escape
+import urllib  # for urllib.encode
+import urlparse  # for urljoin
 
 
 class Error(Exception):
@@ -148,10 +148,10 @@ class DictRegistry(FunctionRegistry):
   """Look up functions in a simple dictionary."""
 
   def __init__(self, func_dict):
-    self.__dict__ = func_dict
+    self.func_dict = func_dict
 
   def LookupWithType(self, user_str):
-    return self.__dict__.get(user_str), None, _DecideFuncType(user_str)
+    return self.func_dict.get(user_str), None, _DecideFuncType(user_str)
 
 
 class CallableRegistry(FunctionRegistry):
@@ -534,13 +534,13 @@ def _ToString(x):
   # Some cross-language values for primitives
   if x is None:
     return 'null'
-  if isinstance(x, str):
+  if isinstance(x, basestring):
     return x
   return pprint.pformat(x)
 
 
 def _HtmlAttrValue(x):
-  return html.escape(x, quote=True)
+  return cgi.escape(x, quote=True)
 
 
 def _AbsUrl(relative_url, context, unused_args):
@@ -554,7 +554,7 @@ def _AbsUrl(relative_url, context, unused_args):
   """
   # urljoin is flexible about trailing/leading slashes -- it will add or de-dupe
   # them
-  return urllib.parse.urljoin(context.Lookup('base-url'), relative_url)
+  return urlparse.urljoin(context.Lookup('base-url'), relative_url)
 
 
 # See http://google-ctemplate.googlecode.com/svn/trunk/doc/howto.html for more
@@ -565,7 +565,7 @@ def _AbsUrl(relative_url, context, unused_args):
 # This is a *public* constant, so that callers can use it construct their own
 # formatter lookup dictionaries, and pass them in to Template.
 _DEFAULT_FORMATTERS = {
-    'html': html.escape,
+    'html': cgi.escape,
 
     # The 'htmltag' name is deprecated.  The html-attr-value name is preferred
     # because it can be read with "as":
@@ -580,10 +580,10 @@ _DEFAULT_FORMATTERS = {
     'size': lambda value: str(len(value)),
 
     # The argument is a dictionary, and we get a a=1&b=2 string back.
-    'url-params': urllib.parse.urlencode,
+    'url-params': urllib.urlencode,
 
     # The argument is an atom, and it takes 'Search query?' -> 'Search+query%3F'
-    'url-param-value': urllib.parse.quote_plus,  # param is an atom
+    'url-param-value': urllib.quote_plus,  # param is an atom
 
     # The default formatter, when no other default is specifier.  For debugging,
     # this could be lambda x: json.dumps(x, indent=2), but here we want to be
@@ -592,7 +592,7 @@ _DEFAULT_FORMATTERS = {
 
     # Just show a plain URL on an HTML page (without anchor text).
     'plain-url': lambda x: '<a href="%s">%s</a>' % (
-        html.escape(x, quote=True), html.escape(x)),
+        cgi.escape(x, quote=True), cgi.escape(x)),
 
     # A context formatter
     'AbsUrl': _AbsUrl,
@@ -660,7 +660,7 @@ def SplitMeta(meta):
   if n % 2 == 1:
     raise ConfigurationError(
         '%r has an odd number of metacharacters' % meta)
-  return meta[:n//2], meta[n//2:]
+  return meta[:n/2], meta[n/2:]
 
 
 _token_re_cache = {}
@@ -698,7 +698,7 @@ def MakeTokenRegex(meta_left, meta_right):
   ALTERNATES_TOKEN,  # {.or}
   OR_TOKEN,  # {.or}
   END_TOKEN,  # {.end}
-  ) = list(range(8))
+  ) = range(8)
 
 
 def _MatchDirective(token):
@@ -824,7 +824,7 @@ def CompileTemplate(
 
     more_formatters:
         Something that can map format strings to formatter functions.  One of:
-          - A plain dictionary of names -> functions  e.g. {'html': html.escape}
+          - A plain dictionary of names -> functions  e.g. {'html': cgi.escape}
           - A higher-order function which takes format strings and returns
             formatter functions.  Useful for when formatters have parsed
             arguments.
@@ -931,7 +931,7 @@ _OPTION_NAMES = ['meta', 'format-char', 'default-formatter', 'undefined-str']
 def FromString(s, more_formatters=lambda x: None, _constructor=None):
   """Like FromFile, but takes a string."""
 
-  f = io.StringIO(s)
+  f = StringIO.StringIO(s)
   return FromFile(f, more_formatters=more_formatters, _constructor=_constructor)
 
 
@@ -1167,7 +1167,7 @@ def _DoSubstitute(args, context, callback):
   else:
     try:
       value = context.Lookup(name)
-    except TypeError as e:
+    except TypeError, e:
       raise EvaluationError(
           'Error evaluating %r in context %r: %r' % (name, context, e))
 
@@ -1179,7 +1179,7 @@ def _DoSubstitute(args, context, callback):
         value = func(value)
     except KeyboardInterrupt:
       raise
-    except Exception as e:
+    except Exception, e:
       raise EvaluationError(
           'Formatting value %r with formatter %s raised exception: %r' %
           (value, formatters, e), original_exception=e)
@@ -1200,7 +1200,7 @@ def _Execute(statements, context, callback):
   """
 
   for i, statement in enumerate(statements):
-    if isinstance(statement, str):
+    if isinstance(statement, basestring):
       callback(statement)
     else:
       # In the case of a substitution, args is a pair (name, formatters).
@@ -1208,7 +1208,7 @@ def _Execute(statements, context, callback):
       try:
         func, args = statement
         func(args, context, callback)
-      except UndefinedVariable as e:
+      except UndefinedVariable, e:
         # Show context for statements
         start = max(0, i-3)
         end = i+3
