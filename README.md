@@ -2,20 +2,17 @@
 
 # MalEvol: Multi-faceted malware infection characterization
 MalEvol is an analysis pipeline that accepts a web-borne malware infection network capturein a form of PCAP/PCAPNG and dissects the infection by analyzing HTTP conversations.
-Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages [CapTipper](https://github.com/omriher/CapTipper) HTTP replay engine to sift through HTTP conversation transactions so as to enable security analysts identify potential threats in the infection capture. MalEvol has the following analysis components (which we call gadgets):
+Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages [CapTipper](https://github.com/omriher/CapTipper) HTTP replay engine to sift through HTTP conversation transactions so as to enable security analysts identify potential threats in the infection capture. For all potentially malicious artifacts, MalEvol leverages real-time detection results from [VirusTotal](https://www.virustotal.com/gui/) to score each artifact for maliciousness. In addition, MalEvol also exracts IOCs and searches for them in [APT reports](https://github.com/aptnotes/data) to correlate IOCs in the infection traffic under analysis and APT artifacts released over the years. MalEvol has the following analysis components:
 
-- Enticement Gadget
-- Redirection Chain Gadget
-- Fingerprinting Gadget
-- Exploitation Gadget
-
-For all potentially malicious artifacts, MalEvol leverages real-time detection results from [VirusTotal](https://www.virustotal.com/gui/) to score each artifact for maliciousness. In addition, MalEvol also exracts IOCs and searches for them in [APT reports](https://github.com/aptnotes/data) to correlate IOCs in the infection traffic under analysis and APT artifacts released over the years.
-
+- Enticement source identification
+- Redirection Chain extraction
+- Fingerprinting
+- Exploitation details
+- Geo-location of participating hosts/IP addresses
 
 
 
-
-## Requirements Installation
+## Installation Requirements 
 
 - Python 3: Used to run MalEvol.py
 - `pip3 install -r requirements.txt`
@@ -33,9 +30,11 @@ For all potentially malicious artifacts, MalEvol leverages real-time detection r
 > Drop your .pcap or .pcapng files in the floder "pcaps"
 > run `python MalEvol.py <your-pcap-file>` (python3)
 
-### Note
-MalEvol manages malicious files. In order to use it, you need to disable any real-time anti-malware protection your OS provides.
-Please note that using MalEvol for a malicious pcap analysis might is not intended for production/commercial purpose, but rather for educational and research only.
+### Notes
+- Please note that using MalEvol for a malicious pcap analysis might is not intended for production/commercial purpose, but rather for educational and research only.
+
+- Since MalEvol analyzes potential malicious objects, in order to smoothly run it, you need to disable any real-time anti-malware protection you have installed or your OS provides.
+
 
 ### Example 1
 > run `python MalEvol.py 2014-11-06-Nuclear-EK-traffic.pcap`
