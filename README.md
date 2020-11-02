@@ -7,7 +7,7 @@ Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages the 
 
 For potentially malicious artifacts it identifies, MalEvol leverages real-time detection results from [VirusTotal](https://www.virustotal.com/gui/) to score each artifact for maliciousness. In addition, MalEvol also automatically exracts IOCs from the given infection capture and searches for them in [APT reports](https://github.com/aptnotes/data) to correlate IOCs in the infection traffic under analysis and APT artifacts released over the years. 
 
-MalEvol has the following najor analysis components which call gadgets:
+MalEvol has the following najor analysis components which we call gadgets:
 
 - Enticement source identification
 - Redirection Chain extraction
