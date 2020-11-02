@@ -24,3 +24,13 @@
 ### Note
 MalEvol manages malicious files. In order to use it, you need to disable any real-time anti-malware protection your OS provides.
 Please note that using MalEvol for a malicious pcap analysis might harm your machine.
+
+### Example 1
+> run `python MalEvol.py 2014-11-06-Nuclear-EK-traffic.pcap`
+![picture1](https://github.com/um-dsp/MalEvol/blob/master/example.PNG)
+
+### Example 2
+This example shows the geographical analysis results of the redirection chain.
+> run `python MalEvol.py pcap21.pcap`
+![picture2](https://github.com/um-dsp/MalEvol/blob/master/gro.PNG)
+
