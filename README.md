@@ -26,9 +26,9 @@ Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages the 
 
 ### Setup
 
-> Under the MalEvol directory, create two directories named "dumps" and "reports"
-> Drop your .pcap or .pcapng files in the floder "pcaps"
-> run `python MalEvol.py <your-pcap-file>` (python3)
+- Under the MalEvol directory, create two directories named "dumps" and "reports"
+- Drop your .pcap or .pcapng files in the floder "pcaps"
+- Execute `python MalEvol.py <your-pcap-file>` (python3)
 
 ### Notes
 - Please note that using MalEvol for a malicious pcap analysis might is not intended for production/commercial purpose, but rather for educational and research only.
