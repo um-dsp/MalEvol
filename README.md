@@ -46,3 +46,8 @@ This example shows the geo-location analysis results of the redirection chain.
 
 ![picture2](https://github.com/um-dsp/MalEvol/blob/master/gro.PNG)
 
+
+### Contact
+MalEvol was developed at the [Data-Driven Security & Privacy Lab (DSPLab)](http://www-personal.umd.umich.edu/~birhanu/dsplab/) at the [University of Michigan, Dearborn](https://umdearborn.edu/cecs/departments/computer-and-information-science). 
+May you have questions, please contact the MalEvol's Lead Developer, Abderrahmen Amich at aamich@umich.edu.
+
