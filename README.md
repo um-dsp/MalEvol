@@ -21,7 +21,7 @@ MalEvol has the following najor analysis components which call gadgets:
 
 - Python 3: Used to run MalEvol.py
 - `pip3 install -r requirements.txt`
-- Python 2: Used to run CapTipper.py
+- Python 2: Used to invoke CapTipper.py from within MalEvol
 - Make sure that the python2 command in your variable environment is "python2"
 
 
