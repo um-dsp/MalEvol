@@ -32,7 +32,7 @@ MalEvol has the following najor analysis components which call gadgets:
 ### Setup
 
 - Under the MalEvol directory, create two directories named "dumps" and "reports"
-- Drop your .pcap or .pcapng files in the floder "pcaps"
+- Drop your .pcap or .pcapng files in the "pcaps" directory
 - Execute `python MalEvol.py <your-pcap-file>` (python3)
 
 ### Notes
