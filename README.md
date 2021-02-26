@@ -7,14 +7,13 @@ Given a PCAP of a malware infection (suspicious traffic), MalEvol leverages the 
 
 For potentially malicious artifacts it identifies, MalEvol leverages real-time detection results from [VirusTotal](https://www.virustotal.com/gui/) to score each artifact for maliciousness. In addition, MalEvol also automatically exracts IOCs from the given infection capture and searches for them in [APT reports](https://github.com/aptnotes/data) to correlate IOCs in the infection traffic under analysis and APT artifacts released over the years. 
 
-MalEvol has the following najor analysis components which we call gadgets:
+MalEvol has the following major analysis components which we call gadgets:
 
 - Enticement source identification
-- Redirection Chain extraction
+- Redirection chain extraction
 - Fingerprinting
 - Exploitation details
 - Geo-location of participating hosts/IP addresses
-
 
 
 ## Installation Requirements 
@@ -33,7 +32,7 @@ MalEvol has the following najor analysis components which we call gadgets:
 
 - Under the MalEvol directory, create two directories named "dumps" and "reports"
 - Drop your .pcap or .pcapng files in the "pcaps" directory
-- Execute `python MalEvol.py <your-pcap-file>` (python3)
+- Execute `python MalEvol.py <path/to/your-pcap-file>` (python3)
 
 ### Notes
 - Please note that MalEvol is not intended for production/commercial purpose, but rather for educational and research only.
